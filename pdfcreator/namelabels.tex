@@ -1,0 +1,34 @@
+\documentclass[12pt,a4paper]{article}
+% Ticketpaket laden: Name der .tdf, Zeilenweise arbeiten, Schneidemarken anzeigen
+% \usepackage[namelabels,rowmode,cutmark]{ticket}
+\usepackage[namelabels,rowmode]{ticket}
+\usepackage[utf8]{inputenc}
+\usepackage[german]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+
+% Definition des Standardetiketts (Vorlage)
+\renewcommand{\ticketdefault}{
+    \put(70.5,43){\includegraphics[width=15mm]{logo}}
+    \put(-3,2){\parbox{96mm}{
+        \tiny
+        \centering
+        http://www.aug-muc.de | https://www.xing.com/net/aug\_muc | \#aug\_muc
+    }}
+}
+
+% Kommando für das Erzeugen eines speziellen Etiketts
+% Es werden zwei Parameter übergeben, die mit #1 und #2 angesprochen werden
+\newcommand{\logolabel}[2]{
+    \ticket{
+        \put(5,25){\parbox{80mm}{
+            \sffamily \centering \huge \textbf{#1} \\
+            \vspace{2mm} \normalsize #2
+        }}
+    }
+}
+
+\begin{document} 
+    % Texdatei mit Kommandos zum erstellen der Etiketten
+    \input{labels}
+\end{document}

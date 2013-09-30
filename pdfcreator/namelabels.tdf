@@ -1,0 +1,19 @@
+%% Ticket definition file
+
+%% Maß für den Längeneinheiten weiter unten
+\unitlength=1mm
+
+%% Versatz zur oberen linken Ecke des ersten Etiketts
+%% -> ausprobieren
+\hoffset=-11mm
+\voffset=-18mm
+
+%% Anzahl der Spalten und Zeilen auf einer Seite 
+\ticketNumbers{2}{5}
+
+%% Größe des Etiketten (je nach \unitlength oben)
+\ticketSize{90}{55}
+
+%% Abstand (x,y) zwischen den Etiketten
+\ticketDistance{0}{0}
+

@@ -1,0 +1,35 @@
+#!/bin/bash
+
+WORKDIR="$(dirname $0)"
+
+if [ ! -r "$1" ]; then
+    echo "Give CSV Input file as first parameter, the format should be 'name,company', e.g. 'Max Mustermann,Muster IT AG'"
+    exit 1
+fi
+INPUT="$1"
+
+LATEX_INPUT_FRONT=$(mktemp)
+echo "Create latex input file ($LATEX_INPUT_FRONT)..."
+"$WORKDIR/texfilecreator/createbadges.pl" --datasource CSV --option file="$INPUT" > "$LATEX_INPUT_FRONT"
+
+LATEX_INPUT_BACK=$(mktemp)
+echo "Create latex input file for backside ($LATEX_INPUT_BACK)..."
+"$WORKDIR/texfilecreator/swap.pl" "$LATEX_INPUT_FRONT" > "$LATEX_INPUT_BACK"
+
+cd "$WORKDIR/pdfcreator"
+
+echo "Create frontside badges..."
+cp "$LATEX_INPUT_FRONT" labels.tex
+pdflatex namelabels.tex 2>&1 >../logs/latex.front.log
+mv namelabels.pdf ../badges.front.pdf
+
+echo "Create backside badges..."
+cp "$LATEX_INPUT_BACK" labels.tex
+pdflatex namelabels.tex 2>&1 >../logs/latex.back.log
+mv namelabels.pdf ../badges.back.pdf
+
+echo "Cleanup..."
+rm -f "$LATEX_INPUT_FRONT" "$LATEX_INPUT_BACK" *.log *.aux labels.tex
+
+echo "Your badges are $WORKDIR/badges.front.pdf and $WORKDIR/badges.back.pdf"
+
